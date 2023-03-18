@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.version     = ApplicationServerManagement::VERSION
   spec.authors     = ["nitishkumargupta"]
   spec.email       = ["nitishkumargupta@outlook.in"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of ApplicationServerManagement."
-  spec.description = "TODO: Description of ApplicationServerManagement."
+  spec.homepage    = "https://github.com/nitishkumargupta/application_server_management"
+  spec.summary     = "Summary of ApplicationServerManagement."
+  spec.description = "Description of ApplicationServerManagement."
     spec.license     = "MIT"
   
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
@@ -15,8 +15,8 @@ Gem::Specification.new do |spec|
   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://github.com/nitishkumargupta/application_server_management"
+  spec.metadata["changelog_uri"] = "https://github.com/nitishkumargupta/application_server_management"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
