@@ -5,12 +5,14 @@ module ApplicationServerManagement
     # GET /application_servers
     def index
       application_servers = ApplicationServer.all
-      result = application_servers.map{|server| id: server.id, name: server.name, code: server.code}
-      render json: { result }
+      result = application_servers.map{|server| {id: server.id, name: server.name, code: server.code}}
+      render json: { result: result }, status: 200
     end
 
     # GET /application_servers/1
     def show
+      result = {id: @application_server.id, name: @application_server.name, code: @application_server.code}
+      render json: { result: result }, status: 200
     end
 
     # GET /application_servers/new
@@ -24,28 +26,30 @@ module ApplicationServerManagement
 
     # POST /application_servers
     def create
-      @application_server = ApplicationServer.new(application_server_params)
+      application_server = ApplicationServer.new(application_server_params)
 
-      if @application_server.save
-        redirect_to @application_server, notice: "Application server was successfully created."
+      if application_server.save
+        result = {id: application_server.id, name: application_server.name, code: application_server.code}
+        render json: { result: result }, status: 200
       else
-        render :new, status: :unprocessable_entity
+        render json: { result: "" }, status: :unprocessable_entity
       end
     end
 
     # PATCH/PUT /application_servers/1
     def update
       if @application_server.update(application_server_params)
-        redirect_to @application_server, notice: "Application server was successfully updated."
+        result = {id: @application_server.id, name: @application_server.name, code: @application_server.code}
+        render json: { result: result }, status: 200
       else
-        render :edit, status: :unprocessable_entity
+        render json: { result: "" }, status: :unprocessable_entity
       end
     end
 
     # DELETE /application_servers/1
     def destroy
       @application_server.destroy
-      redirect_to application_servers_url, notice: "Application server was successfully destroyed."
+      render json: { result: "" }, status: 200
     end
 
     private
