@@ -5,4 +5,6 @@ ApplicationServerManagement::Engine.routes.draw do
   patch "/applications/:id" => "application_servers#update"
   put "/applications/:id" => "application_servers#update"
   delete "/applications/:id" => "application_servers#destroy"
+  get "/application/regenerate_token/:id" => "tokens#regenerate_token"
+  get "/application/retrieve_token/:id" => "tokens#retrieve_token"
 end

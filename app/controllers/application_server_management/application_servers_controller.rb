@@ -1,36 +1,24 @@
 module ApplicationServerManagement
-  class ApplicationServersController < ApplicationController
+  class ApplicationServersController < ::ApplicationController
     before_action :set_application_server, only: %i[ show edit update destroy ]
 
     # GET /application_servers
     def index
       application_servers = ApplicationServer.all
-      result = application_servers.map{|server| {id: server.id, name: server.name, code: server.code}}
-      render json: { result: result }, status: 200
+      render json: application_servers.to_json, status: 200
     end
 
     # GET /application_servers/1
     def show
-      result = {id: @application_server.id, name: @application_server.name, code: @application_server.code}
-      render json: { result: result }, status: 200
+      render json: @application_server.to_json, status: 200
     end
-
-    # GET /application_servers/new
-    def new
-      @application_server = ApplicationServer.new
-    end
-
-    # GET /application_servers/1/edit
-    def edit
-    end
-
+    
     # POST /application_servers
     def create
       application_server = ApplicationServer.new(application_server_params)
-
+      ApplicationServerManagement::TokenCreator.new(application_server).create_token
       if application_server.save
-        result = {id: application_server.id, name: application_server.name, code: application_server.code}
-        render json: { result: result }, status: 200
+        render json: application_server.to_json, status: 200
       else
         render json: { result: "" }, status: :unprocessable_entity
       end
@@ -39,8 +27,7 @@ module ApplicationServerManagement
     # PATCH/PUT /application_servers/1
     def update
       if @application_server.update(application_server_params)
-        result = {id: @application_server.id, name: @application_server.name, code: @application_server.code}
-        render json: { result: result }, status: 200
+        render json: @application_server.to_json, status: 200
       else
         render json: { result: "" }, status: :unprocessable_entity
       end
