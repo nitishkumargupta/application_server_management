@@ -1,10 +1,16 @@
 module ApplicationServerManagement
   class ApplicationServersController < ::ApplicationController
+    include RoleCheck
+    include PaginationAndSorting
+    include ResponseHeaders
+    before_action -> { check_role_permissions(['ROLE_ORGANIZATION_ADMIN']) }
     before_action :set_application_server, only: %i[ show edit update destroy ]
 
     # GET /application_servers
     def index
-      application_servers = ApplicationServer.all
+      query = params[:query]
+      q = params[:q]
+      application_servers = ApplicationServer.ransack(q).result
       render json: application_servers.to_json, status: 200
     end
 
@@ -16,6 +22,7 @@ module ApplicationServerManagement
     # POST /application_servers
     def create
       application_server = ApplicationServer.new(application_server_params)
+      application_server.organisation_id = @current_user.organisation_id
       ApplicationServerManagement::TokenCreator.new(application_server).create_token
       if application_server.save
         render json: application_server.to_json, status: 200
@@ -42,7 +49,8 @@ module ApplicationServerManagement
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_application_server
-        @application_server = ApplicationServer.find(params[:id])
+        @application_servers = @current_user&.organisation&.application_servers
+        @application_server = @application_servers.find(params[:id])
       end
 
       # Only allow a list of trusted parameters through.
