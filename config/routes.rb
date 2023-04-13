@@ -7,4 +7,5 @@ ApplicationServerManagement::Engine.routes.draw do
   delete "/applications/:id" => "application_servers#destroy"
   get "/application/regenerate_token/:id" => "tokens#regenerate_token"
   get "/application/retrieve_token/:id" => "tokens#retrieve_token"
+  get "/application/get-application-by-token" => "tokens#get_application_using_token"
 end

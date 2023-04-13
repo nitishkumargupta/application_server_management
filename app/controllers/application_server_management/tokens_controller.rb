@@ -13,6 +13,15 @@ module ApplicationServerManagement
       render json: token.to_json , status: 200
     end
 
+    def get_application_using_token
+      token = Token.find_by(access_token: params["token"])
+      if token.present?
+        render json: token.application_server.to_json, status: 200
+      else
+        render json: "", status: 404
+      end
+    end
+
     private
 
       def set_application_server
