@@ -4,6 +4,7 @@ module ApplicationServerManagement
     belongs_to :organisation
 
     alias_attribute :organization_id, :organisation_id
+    serialize :alert_response_codes, Array
 
     def self.ransackable_attributes(auth_object = nil)
       ["code", "created_at", "description", "id", "name", "organisation_id", "updated_at"]
