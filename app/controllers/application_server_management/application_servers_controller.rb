@@ -12,12 +12,15 @@ module ApplicationServerManagement
       query = params[:query]
       q = params[:q]
       application_servers = @application_servers.ransack(q).result
+      application_servers = application_servers.map do |server|
+        server.attributes.merge(organization: server.organisation)
+      end
       render json: application_servers.to_json, status: 200
     end
 
     # GET /application_servers/1
     def show
-      render json: @application_server.to_json, status: 200
+      render json: @application_server.attributes.merge(organization: @application_server.organisation).to_json, status: 200
     end
     
     # POST /application_servers
