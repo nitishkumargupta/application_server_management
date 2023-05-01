@@ -30,7 +30,7 @@ module ApplicationServerManagement
       if params[:alert_response_codes].is_a?(String)
         application_server.alert_response_codes = [params[:alert_response_codes]]
       elsif params[:alert_response_codes].is_a?(Array)
-        application_server.alert_response_codes = params[:alert_response_codes]
+        application_server.alert_response_codes = params[:alert_response_codes].map{|code| code.to_s}
       end
       ApplicationServerManagement::TokenCreator.new(application_server).create_token
       if application_server.save
@@ -45,7 +45,7 @@ module ApplicationServerManagement
       if params[:alert_response_codes].is_a?(String)
         @application_server.alert_response_codes = [params[:alert_response_codes]]
       elsif params[:alert_response_codes].is_a?(Array)
-        @application_server.alert_response_codes = params[:alert_response_codes]
+        @application_server.alert_response_codes = params[:alert_response_codes].map{|code| code.to_s}
       end
       if @application_server.update(application_server_params)
         render json: @application_server.to_json, status: 200
