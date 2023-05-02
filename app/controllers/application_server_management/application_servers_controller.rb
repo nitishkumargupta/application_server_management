@@ -3,7 +3,7 @@ module ApplicationServerManagement
     include RoleCheck
     include PaginationAndSorting
     include ResponseHeaders
-    before_action -> { check_role_permissions(['ROLE_ORGANIZATION_ADMIN']) }
+    before_action -> { check_role_permissions(%w[ROLE_ADMIN ROLE_ORGANIZATION_ADMIN]) }
     before_action :set_application_servers
     before_action :set_application_server, only: %i[ show edit update destroy ]
 
@@ -63,7 +63,11 @@ module ApplicationServerManagement
     private
 
       def set_application_servers
-        @application_servers = @current_user&.organisation&.application_servers
+        if current_user_has_role?('ROLE_ADMIN')
+          @application_servers = ApplicationServer.all
+        else
+          @application_servers = @current_user&.organisation&.application_servers
+        end
       end
 
       # Use callbacks to share common setup or constraints between actions.
